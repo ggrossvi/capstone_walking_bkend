@@ -1,8 +1,10 @@
 from flask import Blueprint
 
-hello_world_bp = Blueprint("hello_world", __name__)
+walking_buddy_bp = Blueprint("walking_buddy", __name__, url_prefix='/walking_buddy')
 
-@hello_world_bp.route ('/hello-world', methods=["GET"])
-def get_hello_world():
-    my_response = "Hello,World!"
+@walking_buddy_bp.route("",methods=["GET"])
+def get_walking_buddy():
+    my_response = "Hello,Walking Buddy!"
     return my_response
+
+
