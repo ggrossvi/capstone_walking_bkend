@@ -1,0 +1,10 @@
+/user  gets all the users 
+/user/zip/<zip>
+/user/match
+/user/<id> look at specific user
+/zip asc
+/user/preferred_time
+
+id
+
+

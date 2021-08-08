@@ -22,8 +22,9 @@ def create_app(test_config = None):
     db.init_app(app)
     migrate.init_app(app,db)
 
-    from .route import walking_buddy_bp
-    app.register_blueprint(walking_buddy_bp)
+    from app.route import buddy_bp
+    from app.models.buddy import Buddy
+    app.register_blueprint(buddy_bp)
     
     return app
     
