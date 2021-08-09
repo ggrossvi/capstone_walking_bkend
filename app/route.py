@@ -24,10 +24,13 @@ def create_buddy():
 @buddy_bp.route('', methods=["GET"])
 def get_all_users():
     buddies = Buddy.query.all()
-    response = []
-    for buddy in buddies:
-        response.append(buddy.to_json())
-    return jsonify(response),200
+    if buddies == None:
+        return jsonify({"Error:": "No Buddies found!"},404)
+    else:
+        response = []
+        for buddy in buddies:
+            response.append(buddy.to_json())
+        return jsonify(response),200
 
 
 @buddy_bp.route('/JSON', methods=["GET"])
@@ -39,3 +42,31 @@ def walking_json():
     }, 200
 
 
+@buddy_bp.route('/<buddy_id>', methods = ['GET','PUT', 'DELETE'])  
+def handle_buddy(buddy_id):
+    buddy = Buddy.query.get(buddy_id)
+    if not buddy:
+        return "", 404
+
+    if request.method == 'GET':
+        #check expected output in test
+        return({
+            'buddy':
+                buddy.to_json()
+            
+        })
+    elif request.method == 'PUT':
+        request_body = request.get_json()
+        if 'name' in request_body:
+            buddy.name = request_body['name']
+        db.session.commit()
+        return({
+            'buddy': buddy.to_json()
+        },200)
+    
+    elif request.method =='DELETE':
+        db.session.delete(buddy)
+        db.session.commit()
+        return({
+            "details": f'Buddy {buddy_id} "{buddy.name}" successfully deleted'
+        },200)
