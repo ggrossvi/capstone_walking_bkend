@@ -18,7 +18,8 @@ def create_buddy():
         email = request_body["email"],
         morning = request_body["morning"],
         afternoon = request_body["afternoon"],
-        evening = request_body["evening"]
+        evening = request_body["evening"],
+        bio = request_body["bio"]
     )
     db.session.add(buddy)
     db.session.commit()

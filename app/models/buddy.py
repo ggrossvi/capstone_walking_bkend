@@ -14,6 +14,12 @@ class Buddy(db.Model):
     morning =db.Column(db.Boolean)
     afternoon =db.Column(db.Boolean)
     evening =db.Column(db.Boolean)
+    bio = db.Column(db.Text)
+
+    # familyName maps to last name
+    # givenName maps to first name
+    # imageURL
+    # name puts given and familyN Name together 
 
     def to_json(self):
         return {
@@ -28,6 +34,7 @@ class Buddy(db.Model):
             'email': self.email,
             'morning':self.morning,
             'afternoon':self.afternoon,
-            'evening': self.evening
+            'evening': self.evening,
+            'bio': self.bio
         }
 
