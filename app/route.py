@@ -7,20 +7,39 @@ buddy_bp = Blueprint("buddy_bp", __name__, url_prefix='/buddy')
 @buddy_bp.route("",methods=["POST"])
 def create_buddy():
     request_body = request.get_json()
-    buddy = Buddy(
-        first_name = request_body["first_name"],
-        last_name = request_body["last_name"],
-        address = request_body["address"],
-        apt = request_body["apt"],
-        city = request_body["city"],
-        state = request_body["state"],
-        zipcode = request_body["zipcode"],
-        email = request_body["email"],
-        morning = request_body["morning"],
-        afternoon = request_body["afternoon"],
-        evening = request_body["evening"],
-        bio = request_body["bio"]
-    )
+    print(str(request_body))
+
+    buddy_email = Buddy.query.filter_by(email=request_body["email"]).first()
+    print(str(buddy_email))
+    if buddy_email == None:
+        buddy = Buddy(
+        email = request_body['email'],
+        last_name = request_body['family_name'],
+        first_name = request_body['given_name']
+         )
+        return {
+            "message": "created new user"
+        }
+    else:
+        return {
+            "email": buddy_email.email,
+            "message": "user email found"
+        }
+
+    # buddy = Buddy(
+    #     first_name = request_body["first_name"],
+    #     last_name = request_body["last_name"],
+    #     address = request_body["address"],
+    #     apt = request_body["apt"],
+    #     city = request_body["city"],
+    #     state = request_body["state"],
+    #     zipcode = request_body["zipcode"],
+    #     email = request_body["email"],
+    #     morning = request_body["morning"],
+    #     afternoon = request_body["afternoon"],
+    #     evening = request_body["evening"],
+    #     bio = request_body["bio"]
+    # )
     db.session.add(buddy)
     db.session.commit()
     my_response = "Successfully created new user"
