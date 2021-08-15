@@ -35,12 +35,17 @@ Next STeps:
 
 need to add put in routes
 
+add the matches zip and times routes
+
+
 step 1:  checks with the database /buddy/<email_id>
 if existing user:  
+
 
 show them list of buddies with a button to create calendar event with them to walk ----
 
 step 2: if not in database 
+create user with login information and send back registration form.  
 json return {
         "error": "User does not exist"
     }, 404
