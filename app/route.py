@@ -147,6 +147,65 @@ def update_buddy(buddy_id):
     #         "details": f'Goal {goal_id} "{goal.title}" successfully deleted'
     #     },200)
 
+
+#Register Buddy
+# @buddy_bp.route('/', methods = ['GET','PUT', 'DELETE'])  
+# def register_buddy():
+#     buddy = Buddy.query.get(buddy_id)
+#     if not buddy:
+#         return "", 404
+
+#     if request.method == 'GET':
+#         #check expected output in test
+#         return({
+#             'buddy':
+#                 buddy.to_json()
+            
+#         })
+#     elif request.method == 'PUT':
+#         request_body = request.get_json()
+#         #### if for all the fields
+#         if 'first_name' in request_body:
+#             buddy.first_name = request_body['first_name']
+#         if 'last_name' in request_body:
+#            buddy.last_name = request_body['last_name']
+#         if 'address' in request_body:
+#            buddy.address = request_body['address']
+#         if 'apt' in request_body:
+#            buddy.apt= request_body['apt']
+#         if 'city' in request_body:
+#            buddy.city = request_body['city']
+#         if 'state' in request_body:
+#            buddy.state = request_body['state']
+#         if 'zipcode' in request_body:
+#            buddy.zipcode = request_body['zipcode']
+#         if 'email' in request_body:
+#            buddy.email = request_body['email']
+#         if 'morning' in request_body:
+#            buddy.morning = request_body['morning']
+#         if 'afternoon' in request_body:
+#            buddy.afternoon = request_body['afternoon']
+#         if 'evening' in request_body:
+#            buddy.evening = request_body['evening']
+#         if 'bio' in request_body:
+#            buddy.bio = request_body['bio']
+        
+           
+
+#         db.session.commit()
+#         return({
+#             'buddy':
+#                 buddy.to_json()
+#         },200)
+    
+#     # elif request.method =='DELETE':
+#     #     db.session.delete(goal)
+#     #     db.session.commit()
+#     #     return({
+#     #         "details": f'Goal {goal_id} "{goal.title}" successfully deleted'
+#     #     },200)
+
+
 # make this zip === zip and morning === morning or afternoon === afternoon or evening === evening
 @buddy_bp.route('/zip/<zip>/morning/<morning>/afternoon/<afternoon>/evening/<evening>', methods=["GET"])
 def get_all_users_zip_morning(zip, morning,afternoon,evening):
