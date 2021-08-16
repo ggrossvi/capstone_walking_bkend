@@ -27,8 +27,10 @@ def create_app(test_config = None):
     CORS(app)
 
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['SQLALCHEMY_DATABASE_URI'] = \
-        'postgresql+psycopg2://postgres@localhost:5432/walkingbuddy'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://nngivouwherfmq:b52aa5022ea7c76da647445a1b10ee86113b4750f036ab1322cd73038e74a620@ec2-35-174-56-18.compute-1.amazonaws.com:5432/d66aoo1mughase'
+    # 'postgresql+psycopg2://postgres@localhost:5432/walkingbuddy'
+    
+    
 
     db.init_app(app)
     migrate.init_app(app,db)
