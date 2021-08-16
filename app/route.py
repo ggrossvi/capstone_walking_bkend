@@ -61,16 +61,54 @@ def register_buddy():
     # return jsonify(my_response),200
     # zip == buddy.zipcode
 
+
+    # zip = request.args.get('zip')
+    # morning = request.args.get('morning')
+    # get sort query param
+    # print(zip,morning)
+
+
     buddies = Buddy.query.filter_by(zipcode=buddy.zipcode)
-    print("buddies",buddies)
-    print(buddies.count())
+    # print("buddies",buddies)
+    # print(buddies.count())
     if buddies.count() == 0:
         return jsonify({"No Buddies found!"},204)
     else:
         response = []
-        for buddy in buddies:
-            response.append(buddy.to_json())
+        for my_zip_buddy in buddies:
+            #need to exclude myself
+            # if my_zip_buddy.id != buddy.id:
+            print(my_zip_buddy)
+            if buddy.morning == True:
+                print(f'buddy.morning: {buddy.morning}')
+                if my_zip_buddy.morning:
+                    print(f'my_zip_buddy.morning: {my_zip_buddy.morning}')
+                    response.append(my_zip_buddy.to_json())
+            if buddy.afternoon == True:
+                print(f'buddy.afternoon: {buddy.afternoon}')
+                if my_zip_buddy.afternoon:
+                    print(f'my_zip_buddy.afternoon: {my_zip_buddy.afternoon}')
+                    response.append(my_zip_buddy.to_json())
+            if buddy.evening == True:
+                print(f'buddy.evening: {buddy.evening}')
+                if my_zip_buddy.evening:
+                    print(f'my_zip_buddy.evening: {my_zip_buddy.evening}')
+                    response.append(my_zip_buddy.to_json())
         return jsonify(response),200
+
+
+    # buddies = Buddy.query.filter_by(zipcode=buddy.zipcode)
+    # print("buddies",buddies)
+    # print(buddies.count())
+    # if buddies.count() == 0:
+    #     return jsonify({"No Buddies found!"},204)
+    # else:
+    #     response = []
+    #     for buddy in buddies:
+    #         response.append(buddy.to_json())
+    #     return jsonify(response),200
+
+
     # return jsonify(
     #     message="Successfully created user"
     #     # email ="buddy.email"
