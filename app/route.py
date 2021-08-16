@@ -200,21 +200,21 @@ def update_buddy(buddy_id):
            buddy.evening = request_body['evening']
         if 'bio' in request_body:
            buddy.bio = request_body['bio']
-        
-           
 
         db.session.commit()
         return({
             'buddy':
                 buddy.to_json()
         },200)
-    
-    # elif request.method =='DELETE':
-    #     db.session.delete(goal)
-    #     db.session.commit()
-    #     return({
-    #         "details": f'Goal {goal_id} "{goal.title}" successfully deleted'
-    #     },200)
+
+    elif request.method =='DELETE':
+        db.session.delete(buddy)
+        db.session.commit()
+        return({
+            "details": f'Buddy {buddy_id} "{buddy.first_name}" successfully deleted'
+        },200)   
+        
+
 
 #Get Specific Buddy
 # @buddy_bp.route('/<buddy_id>', methods = ['GET','PUT', 'DELETE'])  
