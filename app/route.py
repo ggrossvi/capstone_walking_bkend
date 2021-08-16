@@ -57,8 +57,25 @@ def register_buddy():
     db.session.add(buddy)
     db.session.commit()
     #need to work on adding better response and doing error msg
-    my_response = "Successfully created new user"
-    return jsonify(my_response),200
+    # my_response = "Successfully created new user"
+    # return jsonify(my_response),200
+    # zip == buddy.zipcode
+
+    buddies = Buddy.query.filter_by(zipcode=buddy.zipcode)
+    print("buddies",buddies)
+    print(buddies.count())
+    if buddies.count() == 0:
+        return jsonify({"No Buddies found!"},204)
+    else:
+        response = []
+        for buddy in buddies:
+            response.append(buddy.to_json())
+        return jsonify(response),200
+    # return jsonify(
+    #     message="Successfully created user"
+    #     # email ="buddy.email"
+    #     # status=404
+    # ),200
 
 
 
