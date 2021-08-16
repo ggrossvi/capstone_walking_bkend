@@ -23,27 +23,44 @@ def create_buddy():
     else:
         return {
             "email": buddy_email.email,
-            "message": "user email found"
+            # "id": id,
+            # "last_name": buddy.last_name,
+            "message": "Returning user email found"
         }
 
-    # buddy = Buddy(
-    #     first_name = request_body["first_name"],
-    #     last_name = request_body["last_name"],
-    #     address = request_body["address"],
-    #     apt = request_body["apt"],
-    #     city = request_body["city"],
-    #     state = request_body["state"],
-    #     zipcode = request_body["zipcode"],
-    #     email = request_body["email"],
-    #     morning = request_body["morning"],
-    #     afternoon = request_body["afternoon"],
-    #     evening = request_body["evening"],
-    #     bio = request_body["bio"]
-    # )
     db.session.add(buddy)
     db.session.commit()
     my_response = "Successfully created new user"
     return jsonify(my_response),200
+
+
+@buddy_bp.route("/register",methods=["POST"])
+def register_buddy():
+    request_body = request.get_json()
+    print(str(request_body))
+
+    buddy = Buddy(
+        first_name = request_body["first_name"],
+        last_name = request_body["last_name"],
+        address = request_body["address"],
+        apt = request_body["apt"],
+        city = request_body["city"],
+        state = request_body["state"],
+        zipcode = request_body["zipcode"],
+        email = request_body["email"],
+        morning = request_body["morning"],
+        afternoon = request_body["afternoon"],
+        evening = request_body["evening"],
+        bio = request_body["bio"]
+    )
+   
+    db.session.add(buddy)
+    db.session.commit()
+    #need to work on adding better response and doing error msg
+    my_response = "Successfully created new user"
+    return jsonify(my_response),200
+
+
 
 @buddy_bp.route('', methods=["GET"])
 def get_all_users():
@@ -56,12 +73,11 @@ def get_all_users():
             response.append(buddy.to_json())
         return jsonify(response),200
 
+
+# get sort query param zip  
 @buddy_bp.route('/zip/<zip>', methods=["GET"])
 def get_all_users_zip(zip):
 
-    # get sort query param
-    
-    
     buddies = Buddy.query.filter_by(zipcode=zip)
     print("buddies",buddies)
     print(buddies.count())
@@ -73,12 +89,10 @@ def get_all_users_zip(zip):
             response.append(buddy.to_json())
         return jsonify(response),200
 
-@buddy_bp.route('/email/<email>', methods=["GET"])
-def get_user_email(email):
 
-    # get sort query param
-    
-    
+# get sort query param email
+@buddy_bp.route('/email/<email>', methods=["GET"])
+def get_user_email(email):  
     buddies = Buddy.query.filter_by(email=email)
     print("buddies",buddies)
     print(buddies.count())
@@ -90,7 +104,7 @@ def get_user_email(email):
             response.append(buddy.to_json())
         return jsonify(response),200
 
-#Get Specific Buddy
+#Get Specific Buddy by id
 @buddy_bp.route('/<buddy_id>', methods = ['GET','PUT', 'DELETE'])  
 def update_buddy(buddy_id):
     buddy = Buddy.query.get(buddy_id)
