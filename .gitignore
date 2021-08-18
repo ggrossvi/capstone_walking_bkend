@@ -1,3 +1,4 @@
 venv/
 psuedo.txt
 troubleshooting.txt
+.env
