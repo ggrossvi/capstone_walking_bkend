@@ -1,16 +1,17 @@
 from app.models.buddy import Buddy
 from flask import Blueprint, jsonify,request
 from app import db
+from app.create_event import add_calendar_event
 
 buddy_bp = Blueprint("buddy_bp", __name__, url_prefix='/buddy')
 
 @buddy_bp.route("",methods=["POST"])
 def create_buddy():
     request_body = request.get_json()
-    print(str(request_body))
+    # print(str(request_body))
 
     buddy_email = Buddy.query.filter_by(email=request_body["email"]).first()
-    print(str(buddy_email))
+    # print(str(buddy_email))
     if buddy_email == None:
         buddy = Buddy(
         email = request_body['email'],
@@ -37,7 +38,7 @@ def create_buddy():
 @buddy_bp.route("/register",methods=["POST"])
 def register_buddy():
     request_body = request.get_json()
-    print(str(request_body))
+    # print(str(request_body))
 
     buddy = Buddy(
         first_name = request_body["first_name"],
@@ -67,9 +68,10 @@ def register_buddy():
     # get sort query param
     # print(zip,morning)
 
-
-    buddies = Buddy.query.filter_by(zipcode=buddy.zipcode)
-    # print("buddies",buddies)
+    # 
+    # import pdb; pdb.set_trace()
+    buddies = Buddy.query.filter(Buddy.zipcode==buddy.zipcode, Buddy.email != buddy.email)
+    print("buddies",buddies)
     # print(buddies.count())
     if buddies.count() == 0:
         return jsonify({"No Buddies found!"},204)
@@ -78,21 +80,24 @@ def register_buddy():
         for my_zip_buddy in buddies:
             #need to exclude myself
             # if my_zip_buddy.id != buddy.id:
-            print(my_zip_buddy)
+            # print(my_zip_buddy)
             if buddy.morning == True:
-                print(f'buddy.morning: {buddy.morning}')
+                # print(f'buddy.morning: {buddy.morning}')
                 if my_zip_buddy.morning:
-                    print(f'my_zip_buddy.morning: {my_zip_buddy.morning}')
+                    # print(f'my_zip_buddy.morning: {my_zip_buddy.morning}')
+                    # print(f'Mornings Work')
                     response.append(my_zip_buddy.to_json())
             if buddy.afternoon == True:
-                print(f'buddy.afternoon: {buddy.afternoon}')
+                # print(f'buddy.afternoon: {buddy.afternoon}')
                 if my_zip_buddy.afternoon:
-                    print(f'my_zip_buddy.afternoon: {my_zip_buddy.afternoon}')
+                    # print(f'my_zip_buddy.afternoon: {my_zip_buddy.afternoon}')
+                    # print(f'Afternoon Works')
                     response.append(my_zip_buddy.to_json())
             if buddy.evening == True:
-                print(f'buddy.evening: {buddy.evening}')
+                # print(f'buddy.evening: {buddy.evening}')
                 if my_zip_buddy.evening:
-                    print(f'my_zip_buddy.evening: {my_zip_buddy.evening}')
+                    # print(f'my_zip_buddy.evening: {my_zip_buddy.evening}')
+                    # print(f'Evening Works')
                     response.append(my_zip_buddy.to_json())
         return jsonify(response),200
 
@@ -124,6 +129,7 @@ def get_all_users():
         return jsonify({"Error:": "No Buddies found!"},404)
     else:
         response = []
+        # print(len(response))
         for buddy in buddies:
             response.append(buddy.to_json())
         return jsonify(response),200
@@ -134,8 +140,8 @@ def get_all_users():
 def get_all_users_zip(zip):
 
     buddies = Buddy.query.filter_by(zipcode=zip)
-    print("buddies",buddies)
-    print(buddies.count())
+    # print("buddies",buddies)
+    # print(buddies.count())
     if buddies.count() == 0:
         return jsonify({"No Buddies found!"},204)
     else:
@@ -149,8 +155,8 @@ def get_all_users_zip(zip):
 @buddy_bp.route('/email/<email>', methods=["GET"])
 def get_user_email(email):  
     buddies = Buddy.query.filter_by(email=email)
-    print("buddies",buddies)
-    print(buddies.count())
+    # print("buddies",buddies)
+    # print(buddies.count())
     if buddies.count() == 0:
         return jsonify({"message": "User not found"},404)
     else:
@@ -158,6 +164,15 @@ def get_user_email(email):
         for buddy in buddies:
             response.append(buddy.to_json())
         return jsonify(response),200
+
+# get sort query param email
+@buddy_bp.route('/event/<email>', methods=["POST"])
+def create_calendar_event(email):  
+    #message is returned from add_calendar_event
+    message = add_calendar_event(email)
+    response = {"event": message}
+    return jsonify(response),200
+
 
 #Get Specific Buddy by id
 @buddy_bp.route('/<buddy_id>', methods = ['GET','PUT', 'DELETE'])  
@@ -349,8 +364,8 @@ def get_all_users_zip_morning(zip, morning,afternoon,evening):
     else:
         response = []
         for buddy in buddies:
-            print(buddy.morning)
-            print(morning)
+            # print(buddy.morning)
+            # print(morning)
             if morning == "1":
                 if buddy.morning:
                     response.append(buddy.to_json())
