@@ -3,10 +3,10 @@
  It allows users to make a calendar appointment with a buddy to walk. Next steps I am going to work on being able to ask alexa how many buddies are in my zip code.  
 
  Tech Stack:
- *React 
- *React Router
- *Flask
- *Python
+ * React 
+ * React Router
+ * Flask
+ * Python
  
 # RESTAPIDocs Examples
 
