@@ -2,11 +2,11 @@
  Walking Buddy is a React Web App that helps users be matched up with a walking buddy.  
  It allows users to make a calendar appointment with a buddy to walk. Next steps I am going to work on being able to ask alexa how many buddies are in my zip code.  
 
- Tech Stack
- React 
- React Router
- Flask
- Python
+ Tech Stack:
+ *React 
+ *React Router
+ *Flask
+ *Python
  
 # RESTAPIDocs Examples
 
